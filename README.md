@@ -9,18 +9,18 @@ Then create some healthchecks for crucial components used by your system.
 ```scala
   val serviceCheck = new HealthCheck() {
     def check(): Future[Result] =
-      Future.value(Result.healthy("Service A up and running!"))
+      Future.value(Result.healthy)
   }
 
   val memcachedCheck = new HealthCheck() {
     def check(): Future[Result] =
-    Future.value(Result.healthy("Memcached up and running!"))
+      Future.value(Result.healthy)
   }
 
   val mySqlCheck = new HealthCheck() {
     def check(): Future[Result] =
-    Future.value(Result.unhealthy(
-    new ConnectionResetException("Lost connection to server...")))
+      Future.value(Result.unhealthy(
+        new ConnectionResetException("Lost connection to server...")))
   }
 ```  
 
@@ -38,4 +38,27 @@ Create a new RunHealthChecks Finagle service passing your registry, and start a 
   )
 ```
 
-Then just call **http://localhost:8083** and see what you get!
+Then just call **http://localhost:8083** and you will get this:
+```json
+{
+  Memcached: {
+    healthy: true
+  },
+  Service: {
+    healthy: true
+  },
+  MySql: {
+    healthy: false,
+    message: "Lost connection to server...",
+    error: {
+      messge: "Lost connection to server...",
+      stack:  [
+        "stack trace gos here..."
+        .
+        .
+        .
+      ]
+    }
+  }
+}
+```
