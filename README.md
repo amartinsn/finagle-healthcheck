@@ -53,7 +53,7 @@ Then just call **http://localhost:8083** and you will get this:
     error: {
       messge: "Lost connection to server...",
       stack:  [
-        "stack trace gos here..."
+        "stack trace goes here..."
         .
         .
         .
