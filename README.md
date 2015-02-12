@@ -39,7 +39,7 @@ Create a new RunHealthChecks Finagle service passing your registry, and start a 
 ```
 
 Then just call **http://localhost:8083** and you will get this:
-```json
+```
 {
   Memcached: {
     healthy: true
