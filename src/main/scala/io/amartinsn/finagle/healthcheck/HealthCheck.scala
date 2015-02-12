@@ -24,11 +24,12 @@ case class Result(
   error: Option[Throwable] = None)
 
 trait HealthCheck {
-
   def check(): Future[Result]
 
   def execute() = {
-    check() rescue {
+    try {
+      check()
+    } catch {
       case e: Exception =>
         Future(Result.unhealthy(e))
     }
