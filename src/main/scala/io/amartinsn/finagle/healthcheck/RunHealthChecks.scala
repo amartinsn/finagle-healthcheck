@@ -2,11 +2,11 @@ package io.amartinsn.finagle.healthcheck
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
 import com.twitter.finagle.Service
 import com.twitter.finagle.httpx.Status.{InternalServerError, NotImplemented, Ok}
 import com.twitter.finagle.httpx.{Request, Response}
 import com.twitter.util.Future
+import io.amartinsn.finagle.healthcheck.json.HealthCheckModule
 
 /**
  * Created by amartins on 2/11/15.
@@ -42,9 +42,8 @@ case class RunHealthChecks(registry: HealthCheckRegistry)
     results.filterNot { entry => entry._2.healthy }.isEmpty
 
   private[this] def objectMapper = {
-    val mapper = new ObjectMapper() with ScalaObjectMapper
+    val mapper = new ObjectMapper()
     mapper.registerModule(DefaultScalaModule)
-    mapper
+      .registerModule(HealthCheckModule)
   }
-
 }

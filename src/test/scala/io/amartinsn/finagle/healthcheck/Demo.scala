@@ -13,18 +13,18 @@ object Demo extends com.twitter.app.App {
 
   val serviceCheck = new HealthCheck() {
     def check(): Future[Result] =
-      Future.value(Result.healthy("Service A up and running!"))
+      Future.value(Result.healthy)
   }
 
   val memcachedCheck = new HealthCheck() {
     def check(): Future[Result] =
-    Future.value(Result.healthy("Memcached up and running!"))
+      Future.value(Result.healthy)
   }
 
   val mySqlCheck = new HealthCheck() {
     def check(): Future[Result] =
-    Future.value(Result.unhealthy(
-    new ConnectionResetException("Lost connection to server...")))
+      Future.value(Result.unhealthy(
+        new ConnectionResetException("Lost connection to server...")))
   }
 
   registry.register("Service", serviceCheck)
